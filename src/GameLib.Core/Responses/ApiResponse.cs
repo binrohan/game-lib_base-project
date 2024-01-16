@@ -8,18 +8,27 @@ public class ApiResponse
         Message = message ?? GetDefaultMessageForStatusCode(statusCode);
     }
 
-    public ApiResponse(int statusCode, object? data, string? message = null)
+    public ApiResponse(int statusCode, object? details, string? message = null)
     {
         StatusCode = statusCode;
         Message = message ?? GetDefaultMessageForStatusCode(statusCode);
-        Data = data;
+        Details = details;
         IsError = DetectError(statusCode);
+    }
+
+    public ApiResponse(int statusCode, IEnumerable<string> errors, string? message = null)
+    {
+        StatusCode = statusCode;
+        Message = message ?? GetDefaultMessageForStatusCode(statusCode);
+        IsError = DetectError(statusCode);
+        Errors = errors;
     }
 
     public int StatusCode { get; set; }
     public string? Message { get; set; }
     public bool IsError { get; private set; }
-    public object? Data { get; set; }
+    public object? Details { get; set; }
+    public IEnumerable<string>? Errors { get; set; }
 
     private static string? GetDefaultMessageForStatusCode(int statusCode)
     {

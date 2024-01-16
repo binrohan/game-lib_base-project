@@ -22,19 +22,19 @@ public class ApiResponse
         IsError = DetectError(status);
     }
 
-    public ApiResponse(int status, IEnumerable<string> errors, string? message = null)
+    public ApiResponse(int status, IDictionary<string, string[]> validationFailures, string? message = null)
     {
         Status = status;
         Message = message ?? GetDefaultMessageForStatusCode(status);
         IsError = DetectError(status);
-        Errors = errors;
+        ValidationFailures = validationFailures;
     }
 
     public int Status { get; set; }
     public string? Message { get; set; }
     public bool IsError { get; private set; }
     public object? Detail { get; set; }
-    public IEnumerable<string>? Errors { get; set; }
+    public IDictionary<string, string[]>? ValidationFailures { get; set; }
 
     private static string? GetDefaultMessageForStatusCode(int status)
     {

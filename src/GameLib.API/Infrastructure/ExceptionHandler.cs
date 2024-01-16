@@ -14,7 +14,6 @@ public class ExceptionHandler : IExceptionHandler
     {
         _env = env;
         _logger = logger;
-        // Register known exception types and handlers.
         _exceptionHandlers = new()
             {
                 { typeof(ValidationException), HandleValidationException },
@@ -42,7 +41,9 @@ public class ExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-        await httpContext.Response.WriteAsJsonAsync(new ApiResponse(StatusCodes.Status400BadRequest, exception.Errors, exception.Message));
+        await httpContext.Response.WriteAsJsonAsync(new ApiResponse(StatusCodes.Status400BadRequest,
+                                                                    validationFailures: exception.Errors,
+                                                                    exception.Message));
     }
 
     private async Task HandleNotFoundException(HttpContext httpContext, Exception ex)

@@ -2,37 +2,43 @@
 
 public class ApiResponse
 {
-    public ApiResponse(int statusCode, string? message = null)
+    public ApiResponse()
     {
-        StatusCode = statusCode;
-        Message = message ?? GetDefaultMessageForStatusCode(statusCode);
+        
     }
 
-    public ApiResponse(int statusCode, object? details, string? message = null)
+    public ApiResponse(int status, string? message = null)
     {
-        StatusCode = statusCode;
-        Message = message ?? GetDefaultMessageForStatusCode(statusCode);
-        Details = details;
-        IsError = DetectError(statusCode);
+        Status = status;
+        Message = message ?? GetDefaultMessageForStatusCode(status);
+        IsError = DetectError(status);
     }
 
-    public ApiResponse(int statusCode, IEnumerable<string> errors, string? message = null)
+    public ApiResponse(int status, object? detail, string? message = null)
     {
-        StatusCode = statusCode;
-        Message = message ?? GetDefaultMessageForStatusCode(statusCode);
-        IsError = DetectError(statusCode);
+        Status = status;
+        Message = message ?? GetDefaultMessageForStatusCode(status);
+        Detail = detail;
+        IsError = DetectError(status);
+    }
+
+    public ApiResponse(int status, IEnumerable<string> errors, string? message = null)
+    {
+        Status = status;
+        Message = message ?? GetDefaultMessageForStatusCode(status);
+        IsError = DetectError(status);
         Errors = errors;
     }
 
-    public int StatusCode { get; set; }
+    public int Status { get; set; }
     public string? Message { get; set; }
     public bool IsError { get; private set; }
-    public object? Details { get; set; }
+    public object? Detail { get; set; }
     public IEnumerable<string>? Errors { get; set; }
 
-    private static string? GetDefaultMessageForStatusCode(int statusCode)
+    private static string? GetDefaultMessageForStatusCode(int status)
     {
-        return statusCode switch
+        return status switch
         {
             200 => "Success",
             201 => "Post Success",

@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
-using GameLib.Core.Interaces.Repositories;
+using GameLib.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace GameLib.Infrastructure.Data.Repositories;
 
@@ -28,10 +27,11 @@ public class Repository<T> : IRepository<T> where T : class
         _dbSet.Add(entity);
     }
 
-    public async Task<int> AddAndSaveAsync(T entity)
+    public async Task<T> AddAndSaveAsync(T entity)
     {
         _dbSet.Add(entity);
-        return await SaveChangesAsync();
+        await _context.UpdateAuditAndSaveChangesAsync();
+        return entity;
     }
 
     public void Update(T entity)
@@ -40,22 +40,26 @@ public class Repository<T> : IRepository<T> where T : class
         _context.Entry(entity).State = EntityState.Modified;
     }
 
-    public async Task<int> UpdateAndSaveAsync(T entity)
+    public async Task<T> UpdateAndSaveAsync(T entity)
     {
         _dbSet.Attach(entity);
         _context.Entry(entity).State = EntityState.Modified;
-        return await SaveChangesAsync();
+
+        await _context.UpdateAuditAndSaveChangesAsync();
+
+        return entity;
     }
 
-    public void Delete(T entity)
+    public async Task<int> DeleteAsync(T entity)
     {
         if (_context.Entry(entity).State == EntityState.Detached)
             _dbSet.Attach(entity);
 
         _dbSet.Remove(entity);
+        return await _context.SaveChangesAsync();
     }
 
-    public void DeleteById(int id)
+    public async Task<int> DeleteAsync(int id)
     {
         T? entityToDelete = _dbSet.Find(id);
 
@@ -63,49 +67,6 @@ public class Repository<T> : IRepository<T> where T : class
             throw new Exception($"{nameof(entityToDelete)} does not exist");
         
         _dbSet.Remove(entityToDelete);
-    }
-
-    public async Task<int> SaveChangesAsync()
-    {
-        var currentDateTime = DateTimeOffset.UtcNow;
-
-        var addedEntities = _context.ChangeTracker.Entries()
-            .Where(p => p.State == EntityState.Added).ToList();
-
-        var modifiedEntities = _context.ChangeTracker.Entries()
-            .Where(p => p.State == EntityState.Modified).ToList();
-
-        foreach (var e in addedEntities)
-        {
-            e.Entity.GetType().GetProperty("CreatedBy")?.SetValue(e.Entity, 0);
-            e.Entity.GetType().GetProperty("Created")?.SetValue(e.Entity, currentDateTime);
-        }
-
-        foreach (var e in modifiedEntities)
-        {
-            bool hasValueChanged = IsEntityModified(e);
-
-            if (hasValueChanged)
-            {
-                e.Entity.GetType().GetProperty("LastModifiedBy")?.SetValue(e.Entity, 0);
-                e.Entity.GetType().GetProperty("LastModified")?.SetValue(e.Entity, currentDateTime);
-            }
-        }
-
         return await _context.SaveChangesAsync();
-    }
-
-    private static bool IsEntityModified(EntityEntry e)
-    {
-        foreach (var prop in e.OriginalValues.Properties)
-        {
-            var originalValue = e.OriginalValues[prop]?.ToString();
-            var currentValue = e.CurrentValues[prop]?.ToString();
-            
-            if (originalValue != currentValue)
-                return true;
-        }
-
-        return false;
     }
 }

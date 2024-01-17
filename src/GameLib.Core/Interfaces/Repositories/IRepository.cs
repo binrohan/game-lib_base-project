@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace GameLib.Core.Interaces.Repositories;
+namespace GameLib.Core.Interfaces.Repositories;
 
 public interface IRepository<T>
 {
@@ -9,11 +9,9 @@ public interface IRepository<T>
     Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predicate);
     
     void Add(T entity);
-    Task<int> AddAndSaveAsync(T entity);
+    Task<T> AddAndSaveAsync(T entity);
     void Update(T entity);
-    Task<int> UpdateAndSaveAsync(T entity);
-    void Delete(T entity);
-    void DeleteById(int id);
-    
-    Task<int> SaveChangesAsync();
+    Task<T> UpdateAndSaveAsync(T entity);
+    Task<int> DeleteAsync(T entity);
+    Task<int> DeleteAsync(int id);
 }

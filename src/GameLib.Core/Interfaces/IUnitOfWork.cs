@@ -1,6 +1,9 @@
-﻿namespace GameLib.Core.Interaces;
+﻿using GameLib.Core.Interfaces.Repositories;
 
-public interface IUnitOfWork
+namespace GameLib.Core.Interfaces;
+
+public interface IUnitOfWork : IDisposable
 {
-
+    Task<int> SaveChangesAsync();
+    IRepository<TEntity> Repository<TEntity>() where TEntity : class;
 }

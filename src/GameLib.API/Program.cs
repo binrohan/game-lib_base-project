@@ -4,12 +4,8 @@ using GameLib.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-string? connectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
-if(string.IsNullOrEmpty(connectionString)) throw new Exception("Connection String Not Found");
-
 // Add services to the container.
-builder.Services.AddAppDbContext(connectionString);
+builder.Services.AddAppDbContext(builder.Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -26,8 +22,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseExceptionHandler("/Error");
-
-//app.UseExceptionMiddleware();
 
 app.UseHttpsRedirection();
 

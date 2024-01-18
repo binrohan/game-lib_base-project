@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace GameLib.API.Controllers;
+namespace GameLib.API;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ApiController : ControllerBase
+public class ConfigController : ControllerBase
 {
 
 }

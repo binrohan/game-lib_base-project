@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameLib.API;
 
-public class ExceptionController : ApiController
+public class ExceptionController : ConfigController
 {
     [HttpGet("not-found")]
     public ActionResult<ApiResponse> ThrowNotFoundException()

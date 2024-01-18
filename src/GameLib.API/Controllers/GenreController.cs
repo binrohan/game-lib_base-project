@@ -1,4 +1,5 @@
 ﻿
+using GameLib.Core.Dtos;
 using GameLib.Core.Interfaces.Services;
 using GameLib.Core.Responses;
 using GameLib.Domain.Entities;
@@ -11,7 +12,7 @@ public class GenreController(IGenreService service) : ApiController
     private readonly IGenreService _service = service;
 
     [HttpPost]
-    public async Task<ActionResult<ApiResponse>> Create([FromBody] Genre genreToCreate)
+    public async Task<ActionResult<ApiResponse>> Create([FromBody] GenreToCreateDto genreToCreate)
     {
         var genre = await _service.AddAndSaveAsync(genreToCreate);
 
@@ -35,9 +36,9 @@ public class GenreController(IGenreService service) : ApiController
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> Update([FromRoute] int id, [FromBody] Genre genreToUpdate)
+    public async Task<ActionResult<ApiResponse>> Update([FromRoute] int id, [FromBody] GenreToUpdateDto genreToUpdate)
     {
-        await _service.UpdateAndSaveAsync(id, genreToUpdate);
+        var entity = await _service.UpdateAndSaveAsync(id, genreToUpdate);
 
         return Result.Updated();
     }

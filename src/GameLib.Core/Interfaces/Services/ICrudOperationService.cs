@@ -4,7 +4,7 @@ public interface ICrudOperationService<TEntity, TCreateDto, TReturnDto, TUpdateD
 {
     Task<TEntity> AddAndSaveAsync(TCreateDto dto);
     Task<IEnumerable<TReturnDto>> GetAllAsync();
-    Task<TReturnDto> GetById(int id);
+    Task<TReturnDto> GetByIdAsync(int id);
     Task<TEntity> UpdateAndSaveAsync(int id, TUpdateDto dto);
-    Task<int> Delete(int id);
+    Task<int> DeleteAsync(int id);
 }

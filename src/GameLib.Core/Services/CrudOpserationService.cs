@@ -7,7 +7,7 @@ using GameLib.Core.Interfaces.Services;
 namespace GameLib.Core.Serivces;
 
 public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUpdateDto>(IUnitOfWork unitOfWork, IMapper mapper) 
-    : ICrudOperationService<TEntity, TCreateDto, TReturnDto, TUpdateDto> 
+    //: ICrudOperationService<TEntity, TCreateDto, TReturnDto, TUpdateDto> 
         where TEntity : class 
         where TCreateDto : class
         where TReturnDto : class
@@ -30,7 +30,7 @@ public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUp
         return _mapper.Map<IEnumerable<TReturnDto>>(entities);
     }
 
-    public virtual async Task<TReturnDto> GetById(int id)
+    public virtual async Task<TReturnDto> GetByIdAsync(int id)
     {
         var entity = await _repo.GetByIdAsync(id) ?? throw new NotFoundException();
 
@@ -46,10 +46,10 @@ public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUp
         return await _repo.UpdateAndSaveAsync(entity);
     }
 
-    public virtual async Task<int> Delete(int id)
+    public virtual async Task<int> DeleteAsync(int id)
     {
         var entity = await _repo.GetByIdAsync(id) ?? throw new NotFoundException();
 
-        return await _repo.DeleteAsync(id);
+        return await _repo.DeleteAsync(entity);
     }
 }

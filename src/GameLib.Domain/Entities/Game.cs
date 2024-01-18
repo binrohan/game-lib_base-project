@@ -6,6 +6,6 @@ public class Game : AuditableEntity
     public required string Title { get; set; }
     public int PublisherId { get; set; }
     public Publisher Publisher { get; set; } = null!;
-    public ICollection<Genre> Genres { get; set; } = new List<Genre>();
-    public ICollection<GameGenre> GameGenres { get; set; } = new List<GameGenre>();
+    public ICollection<Genre> Genres { get; set; } = [];
+    public ICollection<GameGenre> GameGenres { get; set; } = [];
 }

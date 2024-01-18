@@ -6,16 +6,15 @@ using GameLib.Core.Interfaces.Services;
 
 namespace GameLib.Core.Serivces;
 
-public class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUpdateDto>(IUnitOfWork unitOfWork, IMapper mapper) 
+public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUpdateDto>(IUnitOfWork unitOfWork, IMapper mapper) 
     : ICrudOperationService<TEntity, TCreateDto, TReturnDto, TUpdateDto> 
-    where TEntity : class 
-    where TCreateDto : class
-    where TReturnDto : class
-    where TUpdateDto : class
+        where TEntity : class 
+        where TCreateDto : class
+        where TReturnDto : class
+        where TUpdateDto : class
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
-    private readonly IMapper _mapper = mapper;
-    private readonly IRepository<TEntity> _repo = unitOfWork.Repository<TEntity>();
+    protected readonly IMapper _mapper = mapper;
+    protected readonly IRepository<TEntity> _repo = unitOfWork.Repository<TEntity>();
 
     public virtual async Task<TEntity> AddAndSaveAsync(TCreateDto dto)
     {

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameLib.API.Controllers;
 
-public class GenreController(IGenreService service) : ApiController
+public class GenresController(IGenreService service) : ApiController
 {
     private readonly IGenreService _service = service;
 

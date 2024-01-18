@@ -14,6 +14,7 @@ public static class AppServicesExtensions
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IGenreService, GenreService>();
+        services.AddScoped<IPublisherService, PublisherService>();
 
         return services;
     }

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameLib.Infrastructure\GameLib.Infrastructure.csproj" />
+    <ProjectReference Include="..\GameLib.Core\GameLib.Core.csproj" />
   </ItemGroup>
 
 </Project>

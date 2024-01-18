@@ -1,6 +1,4 @@
-﻿using GameLib.Core.Responses;
-
-namespace GameLib.Core.Responses;
+﻿namespace GameLib.Core.Responses;
 
 public class Result
 {

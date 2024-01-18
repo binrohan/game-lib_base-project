@@ -40,7 +40,7 @@ public class GenresController(IGenreService service) : ApiController
     {
         var entity = await _service.UpdateAndSaveAsync(id, genreToUpdate);
 
-        return Result.Updated();
+        return Result.Updated(entity);
     }
 
     [HttpDelete("{id}")]

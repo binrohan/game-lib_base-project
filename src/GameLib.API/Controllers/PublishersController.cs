@@ -38,7 +38,7 @@ public class PublishersController(IPublisherService service) : ApiController
     {
         var entity = await _service.UpdateAndSaveAsync(id, dto);
         
-        return Result.Created(entity);
+        return Result.Updated(entity);
     }
 
     [HttpDelete("{id}")]

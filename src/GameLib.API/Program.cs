@@ -5,12 +5,14 @@ using GameLib.Infrastructure.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAppDbContext(builder.Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// App Services
 builder.Services.AddExceptionHandler<ExceptionHandler>();
+builder.Services.AddAppDbContext(builder.Configuration);
+builder.Services.AddAppServices();
 
 var app = builder.Build();
 

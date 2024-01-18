@@ -1,6 +1,8 @@
 using GameLib.API.Extensions;
 using GameLib.API.Infrastructure;
 using GameLib.Infrastructure.Data;
+using GameLib.Core.Exceptions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddExceptionHandler<ExceptionHandler>();
 builder.Services.AddAppDbContext(builder.Configuration);
 builder.Services.AddAppServices();
+builder.Services.AddMapperProfiles();
 
 var app = builder.Build();
 

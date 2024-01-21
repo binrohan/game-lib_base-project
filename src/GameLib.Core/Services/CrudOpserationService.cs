@@ -2,7 +2,6 @@
 using GameLib.Core.Exceptions;
 using GameLib.Core.Interfaces;
 using GameLib.Core.Interfaces.Repositories;
-using GameLib.Core.Interfaces.Services;
 
 namespace GameLib.Core.Serivces;
 

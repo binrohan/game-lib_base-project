@@ -4,16 +4,6 @@
 ### Migration: dotnet ef migrations add Initial -p GameLib.Infrastructure\GameLib.Infrastructure.csproj -s GameLib.API\GameLib.API.csproj -o Data/Migrations
 ### Update Database:  dotnet ef database update -p GameLib.Infrastructure\GameLib.Infrastructure.csproj -s GameLib.API\GameLib.API.csproj
 
-## TODO:
-* unexpected exception logger - pipeline
-* Performace logger - pipeline
-* fluent validation - pipeline
-* Request logging
-* Api Response convert into generic type 
-* Exception message with inner exception message
-* Instead of four type it should except one dto containsing other types
-* Include predicate pass in constructor
-
 ## Create Publisher Dto example:
 ```
 {

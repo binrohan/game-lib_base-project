@@ -14,11 +14,11 @@ public class ApiResponse
         IsError = DetectError(status);
     }
 
-    public ApiResponse(int status, object? detail, string? message = null)
+    public ApiResponse(int status, object? details, string? message = null)
     {
         Status = status;
         Message = message ?? GetDefaultMessageForStatusCode(status);
-        Detail = detail;
+        Details = details;
         IsError = DetectError(status);
     }
 
@@ -33,7 +33,7 @@ public class ApiResponse
     public int Status { get; set; }
     public string? Message { get; set; }
     public bool IsError { get; private set; }
-    public object? Detail { get; set; }
+    public object? Details { get; set; }
     public IDictionary<string, string[]>? ValidationFailures { get; set; }
 
     private static string? GetDefaultMessageForStatusCode(int status)

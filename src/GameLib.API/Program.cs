@@ -28,6 +28,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler("/Error");
 
+app.UseRequestLogger();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

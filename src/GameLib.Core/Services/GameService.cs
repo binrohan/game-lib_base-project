@@ -31,4 +31,13 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
 
         return await _repo.UpdateAndSaveAsync(entity);
     }
+
+    public async Task<Game> UpdateGenre(UpdateGenreDto dto)
+    {
+        var entity = await _repo.GetByIdAsync(dto.GameId) ?? throw new NotFoundException();
+
+        entity.Genres.ToList().AddRange(await _unitOfWork.Repository<Genre>().GetAsync(g => dto.ListofGenreId.Contains(g.Id)));
+
+        return await _repo.UpdateAndSaveAsync(entity);
+    }
 }

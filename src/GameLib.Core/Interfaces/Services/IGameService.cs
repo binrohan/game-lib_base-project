@@ -4,7 +4,7 @@ using GameLib.Domain.Entities;
 
 namespace GameLib.Core.Interfaces;
 
-public interface IPublisherService : ICrudOperationService<Publisher, PublisherToCreateDto, PublisherToReturnDto, PublisherToUpdateDto>
+public interface IGameService : ICrudOperationService<Game, GameToCreateDto, GameToReturnDto, GameToUpdateDto>
 {
 
 }

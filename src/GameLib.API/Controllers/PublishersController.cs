@@ -5,7 +5,7 @@ using GameLib.Domain.Entities;
 namespace GameLib.API.Controllers;
 
 public class PublishersController(IPublisherService service)
-    : CrudOperationController<Publisher, PublisherToCreateDto, PublisherToListDto, PublisherToUpdateDto>(service)
+    : CrudOperationController<Publisher, PublisherToCreateDto, PublisherToReturnDto, PublisherToUpdateDto>(service)
 {
     private readonly IPublisherService _service = service;
 }

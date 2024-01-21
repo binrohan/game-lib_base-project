@@ -6,7 +6,7 @@ using GameLib.Domain.Entities;
 namespace GameLib.API.Controllers;
 
 public class GenresController(IGenreService service) 
-    : CrudOperationController<Genre, GenreToCreateDto, GenreToListDto, GenreToUpdateDto>(service)
+    : CrudOperationController<Genre, GenreToCreateDto, GenreToReturnDto, GenreToUpdateDto>(service)
 {
     private readonly IGenreService _service = service;
 }

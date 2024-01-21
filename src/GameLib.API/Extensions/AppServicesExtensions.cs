@@ -15,6 +15,7 @@ public static class AppServicesExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IGenreService, GenreService>();
         services.AddScoped<IPublisherService, PublisherService>();
+        services.AddScoped<IGameService, GameService>();
 
         return services;
     }

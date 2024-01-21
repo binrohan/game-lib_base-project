@@ -6,7 +6,7 @@ using GameLib.Domain.Entities;
 namespace GameLib.Core.Serivces;
 
 public class PublisherService(IUnitOfWork unitOfWork, IMapper mapper) 
-    : CrudOpserationService<Publisher, PublisherToCreateDto, PublisherToListDto, PublisherToUpdateDto>(unitOfWork, mapper),
+    : CrudOpserationService<Publisher, PublisherToCreateDto, PublisherToReturnDto, PublisherToUpdateDto>(unitOfWork, mapper),
       IPublisherService
 {
 

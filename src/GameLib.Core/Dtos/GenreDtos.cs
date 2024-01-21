@@ -2,4 +2,4 @@
 
 public record GenreToCreateDto(string Name);
 public record GenreToUpdateDto(string Name);
-public record GenreToListDto(int Id, string Name);
+public record GenreToReturnDto(int Id, string Name);

@@ -10,6 +10,7 @@
 * fluent validation - pipeline
 * Request logging
 * Api Response convert into generic type 
+* Exception message with inner exception message
 
 ## Create Publisher Dto example:
 ```

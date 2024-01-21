@@ -3,7 +3,7 @@ using GameLib.Domain.Entities;
 
 namespace GameLib.Core.Interfaces.Services;
 
-public interface IGenreService : ICrudOperationService<Genre, GenreToCreateDto, GenreToListDto, GenreToUpdateDto>
+public interface IGenreService : ICrudOperationService<Genre, GenreToCreateDto, GenreToReturnDto, GenreToUpdateDto>
 {
 
 }

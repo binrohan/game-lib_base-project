@@ -15,7 +15,7 @@ public class PublisherMapperProfiles : Profile
         CreateMap<PublisherToUpdateDto, Publisher>()
             .ForMember(dest => dest.PhoneNumbers, 
                         opt => opt.MapFrom(src => MapPhoneNumberDtosToPhoneNumbers(src.PhoneNumbers)));;
-        CreateMap<Publisher, PublisherToListDto>();
+        CreateMap<Publisher, PublisherToReturnDto>();
     }
 
     

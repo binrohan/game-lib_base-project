@@ -9,6 +9,7 @@ public static class CoreServiceExtensions
     {
         services.AddAutoMapper(typeof(GenreMapperProfile));
         services.AddAutoMapper(typeof(PublisherMapperProfiles));
+        services.AddAutoMapper(typeof(GameMapperProfiles));
 
         return services;
     }

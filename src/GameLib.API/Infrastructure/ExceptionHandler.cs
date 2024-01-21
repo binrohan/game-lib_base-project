@@ -76,7 +76,7 @@ public class ExceptionHandler : IExceptionHandler
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
         var response = _env.IsDevelopment()
                 ? new ApiResponse(StatusCodes.Status500InternalServerError, ex.StackTrace, ex.Message)
-                : new ApiResponse(StatusCodes.Status500InternalServerError, detail: null, "Internal Server Error");
+                : new ApiResponse(StatusCodes.Status500InternalServerError, details: null, "Internal Server Error");
 
         await httpContext.Response.WriteAsJsonAsync(response);
     }

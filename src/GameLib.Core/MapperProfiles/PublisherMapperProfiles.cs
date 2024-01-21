@@ -10,8 +10,11 @@ public class PublisherMapperProfiles : Profile
     public PublisherMapperProfiles()
     {
         CreateMap<PublisherToCreateDto, Publisher>()
-        .ForMember(dest => dest.PhoneNumbers, opt => opt.MapFrom(src => MapPhoneNumberDtosToPhoneNumbers(src.PhoneNumbers)));
-        CreateMap<PublisherToUpdateDto, Publisher>();
+            .ForMember(dest => dest.PhoneNumbers, 
+                        opt => opt.MapFrom(src => MapPhoneNumberDtosToPhoneNumbers(src.PhoneNumbers)));
+        CreateMap<PublisherToUpdateDto, Publisher>()
+            .ForMember(dest => dest.PhoneNumbers, 
+                        opt => opt.MapFrom(src => MapPhoneNumberDtosToPhoneNumbers(src.PhoneNumbers)));;
         CreateMap<Publisher, PublisherToListDto>();
     }
 

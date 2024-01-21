@@ -37,7 +37,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
         return Result.Ok(entity);
     }
 
-    [HttpPost("{id}")]
+    [HttpPut("{id}")]
     public virtual async Task<ActionResult<ApiResponse>> Update([FromRoute] int id, [FromBody] TUpdateDto dto)
     {
         var entity = await _service.UpdateAndSaveAsync(id, dto);

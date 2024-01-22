@@ -53,7 +53,6 @@ public class ExceptionHandler : IExceptionHandler
         httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 
         await httpContext.Response.WriteAsJsonAsync(new ApiResponse(StatusCodes.Status404NotFound,
-                                                                    exception.Message,
                                                                     "The specified resource was not found."));
     }
 
@@ -75,8 +74,8 @@ public class ExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
         var response = _env.IsDevelopment()
-                ? new ApiResponse(StatusCodes.Status500InternalServerError, ex.StackTrace, ChainExceptionMessage(ex))
-                : new ApiResponse(StatusCodes.Status500InternalServerError, details: null, "Internal Server Error");
+                ? new ApiResponse(StatusCodes.Status500InternalServerError, ChainExceptionMessage(ex))
+                : new ApiResponse(StatusCodes.Status500InternalServerError, "Internal Server Error");
 
         await httpContext.Response.WriteAsJsonAsync(response);
     }

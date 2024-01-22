@@ -14,7 +14,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     private readonly ICrudOperationService<TEntity, TCreateDto, TReturnDto, TUpdateDto> _service = service;
 
     [HttpPost]
-    public virtual async Task<ActionResult<ApiResponse>> Create([FromBody] TCreateDto dto)
+    public virtual async Task<ActionResult<ApiResponse<TEntity>>> Create([FromBody] TCreateDto dto)
     {
         var entity = await _service.AddAndSaveAsync(dto);
         
@@ -22,7 +22,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     }
 
     [HttpGet]
-    public virtual async Task<ActionResult<ApiResponse>> Get()
+    public virtual async Task<ActionResult<ApiResponse<IEnumerable<TReturnDto>>>> Get()
     {
         var entities = await _service.GetAllAsync();
 
@@ -30,7 +30,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     }
 
     [HttpGet("{id}")]
-    public virtual async Task<ActionResult<ApiResponse>> Get([FromRoute] int id)
+    public virtual async Task<ActionResult<ApiResponse<TEntity>>> Get([FromRoute] int id)
     {
         var entity = await _service.GetByIdAsync(id);
 
@@ -38,7 +38,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     }
 
     [HttpPut("{id}")]
-    public virtual async Task<ActionResult<ApiResponse>> Update([FromRoute] int id, [FromBody] TUpdateDto dto)
+    public virtual async Task<ActionResult<ApiResponse<TEntity>>> Update([FromRoute] int id, [FromBody] TUpdateDto dto)
     {
         var entity = await _service.UpdateAndSaveAsync(id, dto);
         

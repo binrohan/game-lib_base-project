@@ -5,8 +5,8 @@ namespace GameLib.API;
 
 public class Result
 {
-    public static ActionResult<ApiResponse> Ok(object details, string? message = null) => new OkObjectResult(new ApiResponse(200, details, message));
-    public static ActionResult<ApiResponse> Created(object details, string? message = null) => new CreatedResult("", new ApiResponse(201, details, message));
-    public static ActionResult<ApiResponse> Updated(object? details = null, string? message = null) => new OkObjectResult(new ApiResponse(204, details, message));
+    public static ActionResult<ApiResponse<T>> Ok<T>(T details, string? message = null) where T : class => new OkObjectResult(new ApiResponse<T>(200, details, message));
+    public static ActionResult<ApiResponse<T>> Created<T>(T details, string? message = null) where T : class => new CreatedResult("", new ApiResponse<T>(201, details, message));
+    public static ActionResult<ApiResponse<T>> Updated<T>(T? details = null, string? message = null) where T : class => new OkObjectResult(new ApiResponse<T>(204, details, message));
     public static ActionResult<ApiResponse> Deleted() => new OkObjectResult(new ApiResponse(200, "Delete successed"));
 }

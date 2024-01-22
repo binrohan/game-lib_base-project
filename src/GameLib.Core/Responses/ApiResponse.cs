@@ -14,14 +14,6 @@ public class ApiResponse
         IsError = DetectError(status);
     }
 
-    public ApiResponse(int status, object? details, string? message = null)
-    {
-        Status = status;
-        Message = message ?? GetDefaultMessageForStatusCode(status);
-        Details = details;
-        IsError = DetectError(status);
-    }
-
     public ApiResponse(int status, IDictionary<string, string[]> validationFailures, string? message = null)
     {
         Status = status;
@@ -32,11 +24,11 @@ public class ApiResponse
 
     public int Status { get; set; }
     public string? Message { get; set; }
-    public bool IsError { get; private set; }
+    public bool IsError { get; protected set; }
     public object? Details { get; set; }
     public IDictionary<string, string[]>? ValidationFailures { get; set; }
 
-    private static string? GetDefaultMessageForStatusCode(int status)
+    protected static string? GetDefaultMessageForStatusCode(int status)
     {
         return status switch
         {
@@ -55,7 +47,7 @@ public class ApiResponse
         };
     }
 
-    private static bool DetectError(int DetectError)
+    protected static bool DetectError(int DetectError)
     {
         return DetectError > 299 || 200 > DetectError;
     }

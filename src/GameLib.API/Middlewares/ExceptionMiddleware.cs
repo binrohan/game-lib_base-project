@@ -23,8 +23,8 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             var response = _env.IsDevelopment()
-                ? new ApiResponse((int)HttpStatusCode.InternalServerError, ex.StackTrace, ex.Message)
-                : new ApiResponse((int)HttpStatusCode.InternalServerError, details: null, ex.Message);
+                ? new ApiResponse<object>((int)HttpStatusCode.InternalServerError, ex.StackTrace, ex.Message)
+                : new ApiResponse<object>((int)HttpStatusCode.InternalServerError, details: null, ex.Message);
 
             var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 

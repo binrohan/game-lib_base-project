@@ -30,6 +30,8 @@ app.UseExceptionHandler("/Error");
 
 app.UseRequestLogger();
 
+app.UsePerformanceMonitor();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

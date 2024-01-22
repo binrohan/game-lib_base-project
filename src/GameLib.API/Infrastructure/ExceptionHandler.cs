@@ -71,7 +71,7 @@ public class ExceptionHandler : IExceptionHandler
 
     private async Task HandleOtherException(HttpContext httpContext, Exception ex)
     {
-        _logger.LogError(ex, ex.Message);
+        _logger.LogError("Path: {Path}, Message: {Message} {ex}", httpContext.Request.Path, ex.Message, ex);
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
         var response = _env.IsDevelopment()

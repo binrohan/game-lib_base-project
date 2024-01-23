@@ -16,14 +16,16 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         var game = _mapper.Map<Game>(dto);
 
-        game.Genres.ToList().AddRange(await _unitOfWork.Repository<Genre>().GetAsync(g => dto.GenreIds.Contains(g.Id)));
+        game.Genres = await _unitOfWork.Repository<Genre>().GetAsync(g => dto.GenreIds.Contains(g.Id));
 
         return await _repo.AddAndSaveAsync(game);
     }
 
     public async override Task<Game> UpdateAndSaveAsync(int id, GameToUpdateDto dto)
     {
-        var entity = await _repo.GetByIdAsync(id) ?? throw new NotFoundException();
+        var entity = await _repo.FirstOrDefaultAsync(g => g.Id == id, g => g.Genres, g => g.Publisher);
+
+        if(entity is null) throw new NotFoundException();
 
         _mapper.Map(dto, entity);
 
@@ -32,12 +34,18 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
         return await _repo.UpdateAndSaveAsync(entity);
     }
 
-    public async Task<Game> UpdateGenre(UpdateGenreDto dto)
+    public async Task<GameToReturnDto> UpdateGenre(UpdateGenreDto dto)
     {
-        var entity = await _repo.GetByIdAsync(dto.GameId) ?? throw new NotFoundException();
+        var entity = await _repo.FirstOrDefaultAsync(g => g.Id == dto.GameId, g => g.Genres, g => g.Publisher);
 
-         entity.Genres = await _unitOfWork.Repository<Genre>().GetAsync(g => dto.ListofGenreId.Contains(g.Id));
+        if(entity is null) throw new NotFoundException();
 
-        return await _repo.UpdateAndSaveAsync(entity);
+        entity.Genres = await _unitOfWork.Repository<Genre>().GetAsync(g => dto.ListofGenreId.Contains(g.Id));
+
+        await _repo.UpdateAndSaveAsync(entity);
+
+        var entityToReturn = _mapper.Map<GameToReturnDto>(entity);
+
+        return entityToReturn;
     }
 }

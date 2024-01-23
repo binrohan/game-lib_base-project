@@ -17,7 +17,16 @@ public class Repository<T> : IRepository<T> where T : class
 
     public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
 
-    public async Task<IList<T>> GetAllAsync() => await _dbSet.ToListAsync();
+    public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> filter,
+                                              params Expression<Func<T, object>>[] includes)
+        => await includes.Aggregate(_dbSet.AsQueryable(),
+                                    (query, include) => query.Include(include))
+                                                             .FirstOrDefaultAsync(filter);
+
+    public async Task<IList<T>> GetAllAsync(params Expression<Func<T, object>>[] includes) 
+        => await includes.Aggregate(_dbSet.AsQueryable(),
+                                    (query, include) => query.Include(include))
+                                                             .ToListAsync();
 
     public async Task<IList<T>> GetAsync(Expression<Func<T, bool>> predicate) 
         => await _dbSet.Where(predicate).ToListAsync();

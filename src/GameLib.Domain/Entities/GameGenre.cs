@@ -1,6 +1,4 @@
-﻿using GameLib.Domain.Entities;
-
-namespace GameLib.Domain;
+﻿namespace GameLib.Domain.Entities;
 
 public class GameGenre
 {

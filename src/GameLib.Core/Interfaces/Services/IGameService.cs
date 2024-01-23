@@ -6,5 +6,5 @@ namespace GameLib.Core.Interfaces;
 
 public interface IGameService : ICrudOperationService<Game, GameToCreateDto, GameToReturnDto, GameToUpdateDto>
 {
-    Task<Game> UpdateGenre(UpdateGenreDto dto);
+    Task<GameToReturnDto> UpdateGenre(UpdateGenreDto dto);
 }

@@ -17,9 +17,9 @@ public class Repository<T> : IRepository<T> where T : class
 
     public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
 
-    public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();
+    public async Task<IList<T>> GetAllAsync() => await _dbSet.ToListAsync();
 
-    public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> predicate) 
+    public async Task<IList<T>> GetAsync(Expression<Func<T, bool>> predicate) 
         => await _dbSet.Where(predicate).ToListAsync();
 
     public void Add(T entity)

@@ -27,7 +27,7 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
 
         _mapper.Map(dto, entity);
 
-        entity.Genres.ToList().AddRange(await _unitOfWork.Repository<Genre>().GetAsync(g => dto.GenreIds.Contains(g.Id)));
+        entity.Genres = await _unitOfWork.Repository<Genre>().GetAsync(g => dto.GenreIds.Contains(g.Id));
 
         return await _repo.UpdateAndSaveAsync(entity);
     }
@@ -36,7 +36,7 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         var entity = await _repo.GetByIdAsync(dto.GameId) ?? throw new NotFoundException();
 
-        entity.Genres.ToList().AddRange(await _unitOfWork.Repository<Genre>().GetAsync(g => dto.ListofGenreId.Contains(g.Id)));
+         entity.Genres = await _unitOfWork.Repository<Genre>().GetAsync(g => dto.ListofGenreId.Contains(g.Id));
 
         return await _repo.UpdateAndSaveAsync(entity);
     }

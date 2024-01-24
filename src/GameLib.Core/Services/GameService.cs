@@ -7,7 +7,7 @@ using GameLib.Domain.Entities;
 namespace GameLib.Core.Serivces;
 
 public class GameService(IUnitOfWork unitOfWork, IMapper mapper) 
-    : CrudOpserationService<Game, GameToCreateDto, GameToReturnDto, GameToUpdateDto>(unitOfWork, mapper), 
+    : CrudOpserationService<Game, GameToCreateDto, GameToReturnDto, GameToUpdateDto>(unitOfWork, mapper, g => g.Genres, g => g.Publisher), 
       IGameService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -23,7 +23,7 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
 
     public async override Task<Game> UpdateAndSaveAsync(int id, GameToUpdateDto dto)
     {
-        var entity = await _repo.FirstOrDefaultAsync(g => g.Id == id, g => g.Genres, g => g.Publisher);
+        var entity = await _repo.GetByIdAsync(id, _includes);
 
         if(entity is null) throw new NotFoundException();
 
@@ -36,7 +36,7 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
 
     public async Task<GameToReturnDto> UpdateGenre(UpdateGenreDto dto)
     {
-        var entity = await _repo.FirstOrDefaultAsync(g => g.Id == dto.GameId, g => g.Genres, g => g.Publisher);
+        var entity = await _repo.GetByIdAsync(dto.GameId, _includes);
 
         if(entity is null) throw new NotFoundException();
 

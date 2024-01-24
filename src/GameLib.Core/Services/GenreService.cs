@@ -7,7 +7,7 @@ using GameLib.Domain.Entities;
 namespace GameLib.Core.Serivces;
 
 public class GenreService(IUnitOfWork unitOfWork, IMapper mapper) 
-  : CrudOpserationService<Genre, GenreToCreateDto, GenreToReturnDto, GenreToUpdateDto>(unitOfWork, mapper), 
+  : CrudOpserationService<Genre, GenreToCreateDto, GenreToReturnDto, GenreToUpdateDto>(unitOfWork, mapper, x => x.Games), 
     IGenreService
 {
 

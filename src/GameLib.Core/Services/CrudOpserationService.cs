@@ -1,11 +1,14 @@
-﻿using AutoMapper;
+﻿using System.Linq.Expressions;
+using AutoMapper;
 using GameLib.Core.Exceptions;
 using GameLib.Core.Interfaces;
 using GameLib.Core.Interfaces.Repositories;
 
 namespace GameLib.Core.Serivces;
 
-public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUpdateDto>(IUnitOfWork unitOfWork, IMapper mapper) 
+public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUpdateDto>(IUnitOfWork unitOfWork,
+                                                                                         IMapper mapper,
+                                                                                         params Expression<Func<TEntity, object>>[] includes) 
         where TEntity : class 
         where TCreateDto : class
         where TReturnDto : class
@@ -13,6 +16,7 @@ public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUp
 {
     protected readonly IMapper _mapper = mapper;
     protected readonly IRepository<TEntity> _repo = unitOfWork.Repository<TEntity>();
+    protected readonly  Expression<Func<TEntity, object>>[] _includes = includes;
 
     public virtual async Task<TEntity> AddAndSaveAsync(TCreateDto dto)
     {
@@ -23,16 +27,16 @@ public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUp
 
     public virtual async Task<IEnumerable<TReturnDto>> GetAllAsync()
     {
-        var entities = await _repo.GetAllAsync();
+        var entities = await _repo.GetAllAsync(_includes);
 
         return _mapper.Map<IEnumerable<TReturnDto>>(entities);
     }
 
-    public virtual async Task<TEntity> GetByIdAsync(int id)
+    public virtual async Task<TReturnDto> GetByIdAsync(int id)
     {
-        var entity = await _repo.GetByIdAsync(id) ?? throw new NotFoundException();
+        var entity = await _repo.GetByIdAsync(id, _includes) ?? throw new NotFoundException();
 
-        return _mapper.Map<TEntity>(entity);
+        return _mapper.Map<TReturnDto>(entity);
     }
 
     public virtual async Task<TEntity> UpdateAndSaveAsync(int id, TUpdateDto dto)

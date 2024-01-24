@@ -30,7 +30,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     }
 
     [HttpGet("{id}")]
-    public virtual async Task<ActionResult<ApiResponse<TEntity>>> Get([FromRoute] int id)
+    public virtual async Task<ActionResult<ApiResponse<TReturnDto>>> Get([FromRoute] int id)
     {
         var entity = await _service.GetByIdAsync(id);
 

@@ -18,13 +18,13 @@ public class PerformanceMonitorMiddleware(RequestDelegate next, ILogger<Performa
         _timer.Stop();
 
         var elapsedMilliseconds = _timer.ElapsedMilliseconds;
-
+        var api = context.Request.Path;
+        
         if (elapsedMilliseconds > 500)
-        {
-            var api = context.Request.Path;
-
             _logger.LogWarning("GameLib Long Running Request: {API} ({ElapsedMilliseconds} milliseconds)",
                 api, elapsedMilliseconds);
-        }
+        else
+            _logger.LogWarning("GameLib Request Execution Time: {API} ({ElapsedMilliseconds} milliseconds)",
+                api, elapsedMilliseconds);
     }
 }

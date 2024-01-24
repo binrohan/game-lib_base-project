@@ -17,6 +17,13 @@ public class Repository<T> : IRepository<T> where T : class
 
     public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
 
+    public async Task<T?> GetByIdAsync<Tid>(Tid id, params Expression<Func<T, object>>[] includes)
+    {
+        return await includes.Aggregate(_dbSet.AsQueryable(),
+                                    (query, include) => query.Include(include))
+                                                             .FirstOrDefaultAsync(x => EF.Property<Tid>(x, "Id")!.Equals(id));
+    }
+
     public async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> filter,
                                               params Expression<Func<T, object>>[] includes)
         => await includes.Aggregate(_dbSet.AsQueryable(),
@@ -28,8 +35,11 @@ public class Repository<T> : IRepository<T> where T : class
                                     (query, include) => query.Include(include))
                                                              .ToListAsync();
 
-    public async Task<IList<T>> GetAsync(Expression<Func<T, bool>> predicate) 
-        => await _dbSet.Where(predicate).ToListAsync();
+    public async Task<IList<T>> GetAsync(Expression<Func<T, bool>> filter,
+                                         params Expression<Func<T, object>>[] includes) 
+        => await includes.Aggregate(_dbSet.Where(filter),
+                                    (query, include) => query.Include(include))
+                                                             .ToListAsync();
 
     public void Add(T entity)
     {

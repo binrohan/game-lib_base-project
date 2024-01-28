@@ -1,7 +1,7 @@
-﻿using GameLib.API.Controllers;
+﻿using GameLib.API.Responses;
+using GameLib.API.Controllers;
 using GameLib.Core.Dtos;
 using GameLib.Core.Interfaces;
-using GameLib.Core.Responses;
 using GameLib.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 

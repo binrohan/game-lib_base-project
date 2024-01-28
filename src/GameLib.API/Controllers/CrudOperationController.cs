@@ -1,5 +1,5 @@
 ﻿using GameLib.Core.Interfaces.Services;
-using GameLib.Core.Responses;
+using GameLib.API.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameLib.API.Controllers;
@@ -14,6 +14,8 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     private readonly ICrudOperationService<TEntity, TCreateDto, TReturnDto, TUpdateDto> _service = service;
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public virtual async Task<ActionResult<ApiResponse<TEntity>>> Create([FromBody] TCreateDto dto)
     {
         var entity = await _service.AddAndSaveAsync(dto);
@@ -22,6 +24,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public virtual async Task<ActionResult<ApiResponse<IEnumerable<TReturnDto>>>> Get()
     {
         var entities = await _service.GetAllAsync();
@@ -30,6 +33,8 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<ApiResponse<TReturnDto>>> Get([FromRoute] int id)
     {
         var entity = await _service.GetByIdAsync(id);
@@ -38,6 +43,8 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     }
 
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<ApiResponse<TEntity>>> Update([FromRoute] int id, [FromBody] TUpdateDto dto)
     {
         var entity = await _service.UpdateAndSaveAsync(id, dto);
@@ -46,6 +53,8 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     }
 
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<ApiResponse>> Delete([FromRoute] int id)
     {
         await _service.DeleteAsync(id);

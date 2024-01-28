@@ -1,7 +1,6 @@
 ﻿using FluentValidation.Results;
-using GameLib.API.Controllers;
+using GameLib.API.Responses;
 using GameLib.Core.Exceptions;
-using GameLib.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameLib.API;
@@ -9,6 +8,7 @@ namespace GameLib.API;
 public class ExceptionsController : ConfigController
 {
     [HttpGet("not-found")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<ApiResponse> ThrowNotFoundException()
     {
         throw new NotFoundException();
@@ -19,8 +19,8 @@ public class ExceptionsController : ConfigController
     {
         ValidationFailure[] failures =
         [
-            new ValidationFailure("Title", "Title is required"),
-            new ValidationFailure("Title", "Title is required"),
+            new ValidationFailure("Title", "Required"),
+            new ValidationFailure("Title", "Maximum length is 100"),
             new ValidationFailure("PhoneNumber", "Phone number not in correct format")
         ];
 

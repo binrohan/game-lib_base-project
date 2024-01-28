@@ -11,21 +11,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(opt => opt.Conventions.Add(new RouteTokenTransformerConvention(new KebabCasingTransformer())));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 // App Services
 builder.Services.AddExceptionHandler<ExceptionHandler>();
 builder.Services.AddAppDbContext(builder.Configuration);
 builder.Services.AddAppServices();
 builder.Services.AddMapperProfiles();
+builder.Services.AddSwaggerDocumentation();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwaggerDocumentation();
 
 app.UseExceptionHandler("/Error");
 

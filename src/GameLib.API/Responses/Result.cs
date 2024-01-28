@@ -1,7 +1,6 @@
-﻿using GameLib.Core.Responses;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace GameLib.API;
+namespace GameLib.API.Responses;
 
 public class Result
 {

@@ -1,5 +1,4 @@
-﻿using GameLib.Core.Responses;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace GameLib.API;
 

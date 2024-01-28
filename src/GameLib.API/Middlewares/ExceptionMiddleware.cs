@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
-using GameLib.Core.Responses;
+using GameLib.API.Responses;
 
 namespace GameLib.API.Middlewares;
 

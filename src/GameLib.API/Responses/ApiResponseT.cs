@@ -1,4 +1,4 @@
-﻿namespace GameLib.Core.Responses;
+﻿namespace GameLib.API.Responses;
 
 public class ApiResponse<T> : ApiResponse  where T : class
 {

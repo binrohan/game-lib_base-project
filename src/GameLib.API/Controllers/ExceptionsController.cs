@@ -8,13 +8,14 @@ namespace GameLib.API;
 public class ExceptionsController : ConfigController
 {
     [HttpGet("not-found")]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public ActionResult<ApiResponse> ThrowNotFoundException()
     {
         throw new NotFoundException();
     }
 
     [HttpGet("validation-failed")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public ActionResult<ApiResponse> ThrowValidationException()
     {
         ValidationFailure[] failures =
@@ -28,18 +29,21 @@ public class ExceptionsController : ConfigController
     }
 
     [HttpGet("unauthorized")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status401Unauthorized)]
     public ActionResult<ApiResponse> ThrowUnauthorizedException()
     {
         throw new UnauthorizedAccessException();
     }
 
     [HttpGet("forbidden-access")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status403Forbidden)]
     public ActionResult<ApiResponse> ThrowForbiddenAccessException()
     {
         throw new ForbiddenAccessException();
     }
 
     [HttpGet("internal-server-error")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
     public ActionResult<ApiResponse> ThrowInternalServerErrorException()
     {
         throw new NullReferenceException();

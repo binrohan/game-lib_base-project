@@ -1,6 +1,4 @@
-﻿using GameLib.API.Attributes;
-
-namespace GameLib.API.Responses;
+﻿namespace GameLib.API.Responses;
 
 public class ApiResponse
 {
@@ -26,10 +24,8 @@ public class ApiResponse
 
     public int Status { get; set; }
     public string? Message { get; set; }
-    [SwaggerExample("false")]
     public bool IsError { get; protected set; }
     public object? Details { get; set; }
-    [SwaggerExample("null")]
     public IDictionary<string, string[]>? ValidationFailures { get; set; }
 
     protected static string? GetDefaultMessageForStatusCode(int status)

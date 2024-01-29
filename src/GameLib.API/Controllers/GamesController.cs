@@ -12,6 +12,7 @@ public class GamesController(IGameService service) : CrudOperationController<Gam
     private readonly IGameService _service = service;
 
     [HttpPut("update-genres")]
+    [ProducesResponseType(typeof(ApiResponse<GameToReturnDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<GameToReturnDto>>> UpdateGenre(UpdateGenreDto dto)
     {
         var entity = await _service.UpdateGenre(dto);

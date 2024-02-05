@@ -41,6 +41,9 @@ public class Repository<T> : IRepository<T> where T : class
                                     (query, include) => query.Include(include))
                                                              .ToListAsync();
 
+    public async Task<IList<T>> GetAsync(Expression<Func<T, bool>> filter) 
+        => await _dbSet.Where(filter).ToListAsync();
+
     public void Add(T entity)
     {
         _dbSet.Add(entity);

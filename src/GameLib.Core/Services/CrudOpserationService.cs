@@ -18,11 +18,13 @@ public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUp
     protected readonly IRepository<TEntity> _repo = unitOfWork.Repository<TEntity>();
     protected readonly  Expression<Func<TEntity, object>>[] _includes = includes;
 
-    public virtual async Task<TEntity> AddAndSaveAsync(TCreateDto dto)
+    public virtual async Task<TReturnDto> AddAndSaveAsync(TCreateDto dto)
     {
         var entity = _mapper.Map<TEntity>(dto);
 
-        return await _repo.AddAndSaveAsync(entity);
+        entity = await _repo.AddAndSaveAsync(entity);
+
+        return _mapper.Map<TReturnDto>(entity);
     }
 
     public virtual async Task<IEnumerable<TReturnDto>> GetAllAsync()

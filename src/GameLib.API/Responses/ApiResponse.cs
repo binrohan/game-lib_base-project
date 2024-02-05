@@ -14,7 +14,7 @@ public class ApiResponse
         IsError = DetectError(status);
     }
 
-    public ApiResponse(int status, IDictionary<string, string[]> validationFailures, string? message = null)
+    public ApiResponse(int status, IList<string> validationFailures, string? message = null)
     {
         Status = status;
         Message = message ?? GetDefaultMessageForStatusCode(status);
@@ -26,7 +26,7 @@ public class ApiResponse
     public string? Message { get; set; }
     public bool IsError { get; protected set; }
     public object? Details { get; set; }
-    public IDictionary<string, string[]>? ValidationFailures { get; set; }
+    public IList<string>? ValidationFailures { get; set; }
 
     protected static string? GetDefaultMessageForStatusCode(int status)
     {

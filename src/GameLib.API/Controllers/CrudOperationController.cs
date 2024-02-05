@@ -16,7 +16,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public virtual async Task<ActionResult<ApiResponse<TEntity>>> Create([FromBody] TCreateDto dto)
+    public virtual async Task<ActionResult<ApiResponse<TReturnDto>>> Create([FromBody] TCreateDto dto)
     {
         var entity = await _service.AddAndSaveAsync(dto);
         

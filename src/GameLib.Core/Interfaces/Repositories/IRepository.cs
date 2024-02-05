@@ -10,6 +10,7 @@ public interface IRepository<T>
     
     Task<IList<T>> GetAllAsync(params Expression<Func<T, object>>[] includes);
     Task<IList<T>> GetAsync(Expression<Func<T, bool>> filter, params Expression<Func<T, object>>[] includes);
+    Task<IList<T>> GetAsync(Expression<Func<T, bool>> filter);
     
     void Add(T entity);
     Task<T> AddAndSaveAsync(T entity);

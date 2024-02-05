@@ -12,13 +12,15 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async override Task<Game> AddAndSaveAsync(GameToCreateDto dto)
+    public async override Task<GameToReturnDto> AddAndSaveAsync(GameToCreateDto dto)
     {
         var game = _mapper.Map<Game>(dto);
 
         game.Genres = await _unitOfWork.Repository<Genre>().GetAsync(g => dto.GenreIds.Contains(g.Id));
 
-        return await _repo.AddAndSaveAsync(game);
+        game = await _repo.AddAndSaveAsync(game);
+
+        return _mapper.Map<GameToReturnDto>(game);
     }
 
     public async override Task<Game> UpdateAndSaveAsync(int id, GameToUpdateDto dto)

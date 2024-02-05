@@ -1,5 +1,4 @@
-﻿using GameLib.API.Responses;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace GameLib.API;
 
@@ -7,8 +6,7 @@ namespace GameLib.API;
 [Route("api/[controller]")]
 [Produces("application/json")]
 [Consumes("application/json")]
-[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status500InternalServerError)]
 public class ConfigController : ControllerBase
 {
-
+    
 }

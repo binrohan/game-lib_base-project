@@ -14,7 +14,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     private readonly ICrudOperationService<TEntity, TCreateDto, TReturnDto, TUpdateDto> _service = service;
 
     [HttpPost]
-    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public virtual async Task<ActionResult<ApiResponse<TEntity>>> Create([FromBody] TCreateDto dto)
     {
@@ -34,7 +34,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual async Task<ActionResult<ApiResponse<TReturnDto>>> Get([FromRoute] int id)
     {
         var entity = await _service.GetByIdAsync(id);
@@ -44,7 +44,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
 
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public virtual async Task<ActionResult<ApiResponse<TEntity>>> Update([FromRoute] int id, [FromBody] TUpdateDto dto)
     {
         var entity = await _service.UpdateAndSaveAsync(id, dto);
@@ -54,7 +54,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
 
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public virtual async Task<ActionResult<ApiResponse>> Delete([FromRoute] int id)
     {
         await _service.DeleteAsync(id);

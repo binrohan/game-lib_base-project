@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using GameLib.API.Infrastructure.Swagger;
 using Microsoft.OpenApi.Models;
 
 namespace GameLib.API.Extensions;
@@ -19,6 +20,7 @@ public static class SwaggerConfigExtensions
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             option.IncludeXmlComments(xmlPath);
+            option.OperationFilter<ProducesResponseTypeAttributeFilter>();
         });
 
         return services;

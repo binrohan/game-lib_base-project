@@ -22,4 +22,8 @@
     <ProjectReference Include="..\GameLib.Core\GameLib.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Attributes\" />
+  </ItemGroup>
+
 </Project>

@@ -2,7 +2,7 @@
 using GameLib.Core.Interfaces.Services;
 using GameLib.Domain.Entities;
 
-namespace GameLib.Core.Interfaces;
+namespace GameLib.Core.Interfaces.Services;
 
 public interface IGameService : ICrudOperationService<Game, GameToCreateDto, GameToReturnDto, GameToUpdateDto>
 {

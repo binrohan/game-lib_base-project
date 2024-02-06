@@ -45,7 +45,7 @@ public class CrudOperationController<TEntity, TCreateDto, TReturnDto, TUpdateDto
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public virtual async Task<ActionResult<ApiResponse<TEntity>>> Update([FromRoute] int id, [FromBody] TUpdateDto dto)
+    public virtual async Task<ActionResult<ApiResponse<TReturnDto>>> Update([FromRoute] int id, [FromBody] TUpdateDto dto)
     {
         var entity = await _service.UpdateAndSaveAsync(id, dto);
         

@@ -41,13 +41,15 @@ public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUp
         return _mapper.Map<TReturnDto>(entity);
     }
 
-    public virtual async Task<TEntity> UpdateAndSaveAsync(int id, TUpdateDto dto)
+    public virtual async Task<TReturnDto> UpdateAndSaveAsync(int id, TUpdateDto dto)
     {
         var entity = await _repo.GetByIdAsync(id) ?? throw new NotFoundException();
 
         _mapper.Map(dto, entity);
 
-        return await _repo.UpdateAndSaveAsync(entity);
+        entity = await _repo.UpdateAndSaveAsync(entity);
+
+        return _mapper.Map<TReturnDto>(entity);
     }
 
     public virtual async Task<int> DeleteAsync(int id)

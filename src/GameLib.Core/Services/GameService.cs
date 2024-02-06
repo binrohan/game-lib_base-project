@@ -2,6 +2,7 @@
 using GameLib.Core.Dtos;
 using GameLib.Core.Exceptions;
 using GameLib.Core.Interfaces;
+using GameLib.Core.Interfaces.Services;
 using GameLib.Domain.Entities;
 
 namespace GameLib.Core.Serivces;
@@ -23,7 +24,7 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
         return _mapper.Map<GameToReturnDto>(game);
     }
 
-    public async override Task<Game> UpdateAndSaveAsync(int id, GameToUpdateDto dto)
+    public async override Task<GameToReturnDto> UpdateAndSaveAsync(int id, GameToUpdateDto dto)
     {
         var entity = await _repo.GetByIdAsync(id, _includes);
 
@@ -33,7 +34,9 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
 
         entity.Genres = await _unitOfWork.Repository<Genre>().GetAsync(g => dto.GenreIds.Contains(g.Id));
 
-        return await _repo.UpdateAndSaveAsync(entity);
+        entity = await _repo.UpdateAndSaveAsync(entity);
+
+        return _mapper.Map<GameToReturnDto>(entity);
     }
 
     public async Task<GameToReturnDto> UpdateGenre(UpdateGenreDto dto)

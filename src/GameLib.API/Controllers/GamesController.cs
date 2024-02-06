@@ -4,6 +4,7 @@ using GameLib.Core.Dtos;
 using GameLib.Core.Interfaces;
 using GameLib.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using GameLib.Core.Interfaces.Services;
 
 namespace GameLib.API;
 

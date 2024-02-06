@@ -41,9 +41,9 @@ public class ExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-        await httpContext.Response.WriteAsJsonAsync(new ApiResponse(StatusCodes.Status400BadRequest,
+        await httpContext.Response.WriteAsJsonAsync(new ApiResponse(ResponseCodes.BadRequest,
                                                                     validationFailures: exception.Errors,
-                                                                    exception.Message));
+                                                                    ResponseMessages.ValidationFailed400));
     }
 
     private async Task HandleNotFoundException(HttpContext httpContext, Exception ex)
@@ -52,20 +52,19 @@ public class ExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 
-        await httpContext.Response.WriteAsJsonAsync(new ApiResponse(StatusCodes.Status404NotFound,
-                                                                    "The specified resource was not found."));
+        await httpContext.Response.WriteAsJsonAsync(new ApiResponse(ResponseCodes.NotFound));
     }
 
     private async Task HandleUnauthorizedAccessException(HttpContext httpContext, Exception ex)
     {
         httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-        await httpContext.Response.WriteAsJsonAsync(new ApiResponse(StatusCodes.Status401Unauthorized, "Unauthorized."));
+        await httpContext.Response.WriteAsJsonAsync(new ApiResponse(ResponseCodes.Unauthorized));
     }
 
     private async Task HandleForbiddenAccessException(HttpContext httpContext, Exception ex)
     {
         httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
-        await httpContext.Response.WriteAsJsonAsync(new ApiResponse(StatusCodes.Status403Forbidden, "Forbidden."));
+        await httpContext.Response.WriteAsJsonAsync(new ApiResponse(ResponseCodes.NotAllowed));
     }
 
     private async Task HandleOtherException(HttpContext httpContext, Exception ex)
@@ -74,8 +73,8 @@ public class ExceptionHandler : IExceptionHandler
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
         var response = _env.IsDevelopment()
-                ? new ApiResponse(StatusCodes.Status500InternalServerError, ChainExceptionMessage(ex))
-                : new ApiResponse(StatusCodes.Status500InternalServerError, "Internal Server Error.");
+                ? new ApiResponse(ResponseCodes.InternalServerError, ChainExceptionMessage(ex))
+                : new ApiResponse(ResponseCodes.InternalServerError);
 
         await httpContext.Response.WriteAsJsonAsync(response);
     }

@@ -3,12 +3,12 @@ using AutoMapper;
 using GameLib.Core.Exceptions;
 using GameLib.Core.Interfaces;
 using GameLib.Core.Interfaces.Repositories;
+using GameLib.Core.Interfaces.Services;
 
 namespace GameLib.Core.Serivces;
 
-public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUpdateDto>(IUnitOfWork unitOfWork,
-                                                                                         IMapper mapper,
-                                                                                         params Expression<Func<TEntity, object>>[] includes) 
+public class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUpdateDto>(IUnitOfWork unitOfWork, IMapper mapper)
+    : ICrudOperationService<TEntity, TCreateDto, TReturnDto, TUpdateDto>
         where TEntity : class 
         where TCreateDto : class
         where TReturnDto : class
@@ -16,7 +16,7 @@ public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUp
 {
     protected readonly IMapper _mapper = mapper;
     protected readonly IRepository<TEntity> _repo = unitOfWork.Repository<TEntity>();
-    protected readonly  Expression<Func<TEntity, object>>[] _includes = includes;
+    protected Expression<Func<TEntity, object>>[] Includes = [];
 
     public virtual async Task<TReturnDto> AddAndSaveAsync(TCreateDto dto)
     {
@@ -29,14 +29,14 @@ public abstract class CrudOpserationService<TEntity, TCreateDto, TReturnDto, TUp
 
     public virtual async Task<IEnumerable<TReturnDto>> GetAllAsync()
     {
-        var entities = await _repo.GetAllAsync(_includes);
+        var entities = await _repo.GetAllAsync(Includes);
 
         return _mapper.Map<IEnumerable<TReturnDto>>(entities);
     }
 
     public virtual async Task<TReturnDto> GetByIdAsync(int id)
     {
-        var entity = await _repo.GetByIdAsync(id, _includes) ?? throw new NotFoundException();
+        var entity = await _repo.GetByIdAsync(id, Includes) ?? throw new NotFoundException();
 
         return _mapper.Map<TReturnDto>(entity);
     }

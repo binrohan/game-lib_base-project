@@ -7,11 +7,17 @@ using GameLib.Domain.Entities;
 
 namespace GameLib.Core.Serivces;
 
-public class GameService(IUnitOfWork unitOfWork, IMapper mapper) 
-    : CrudOpserationService<Game, GameToCreateDto, GameToReturnDto, GameToUpdateDto>(unitOfWork, mapper, g => g.Genres, g => g.Publisher), 
+public class GameService 
+    : CrudOpserationService<Game, GameToCreateDto, GameToReturnDto, GameToUpdateDto>, 
       IGameService
 {
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;
+
+    public GameService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    {
+        _unitOfWork = unitOfWork;
+        Includes = [g => g.Publisher, g => g.Genres];
+    }
 
     public async override Task<GameToReturnDto> AddAndSaveAsync(GameToCreateDto dto)
     {
@@ -26,7 +32,7 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
 
     public async override Task<GameToReturnDto> UpdateAndSaveAsync(int id, GameToUpdateDto dto)
     {
-        var entity = await _repo.GetByIdAsync(id, _includes);
+        var entity = await _repo.GetByIdAsync(id, Includes);
 
         if(entity is null) throw new NotFoundException();
 
@@ -41,7 +47,7 @@ public class GameService(IUnitOfWork unitOfWork, IMapper mapper)
 
     public async Task<GameToReturnDto> UpdateGenre(UpdateGenreDto dto)
     {
-        var entity = await _repo.GetByIdAsync(dto.GameId, _includes);
+        var entity = await _repo.GetByIdAsync(dto.GameId, Includes);
 
         if(entity is null) throw new NotFoundException();
 
